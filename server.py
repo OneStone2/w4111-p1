@@ -471,7 +471,7 @@ def recipe():
 def edit_recipe():
     print(request)
     r_id = ([x for x in request.args]+[None])[0]
-    u_id = g.user['email']
+    
     if r_id is None:
         if "last_recipe" not in session:
             abort(400)
@@ -483,6 +483,8 @@ def edit_recipe():
     
     if g.user is None:
         abort(403)
+    
+    u_id = g.user['email']
     
     cmd = 'SELECT R.name, R.servings, R.time, A.username FROM Recipe R, Account A, Writes W WHERE R.recipe_id = (:r_id) AND R.recipe_id = W.recipe_id AND A.email = W.email'
     recipe = g.conn.execute(text(cmd), r_id = r_id).fetchone()
