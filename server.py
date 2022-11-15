@@ -415,7 +415,7 @@ def inventory():
     if u_id is None:
         abort(401)
     else:
-		u_id = g.user['email']
+        u_id = g.user['email']
         cmd = 'SELECT V.amount, G.unit, G.name, G.ingr_id FROM Inventory V, Ingredient G WHERE V.email = (:u_id) AND V.ingr_id = G.ingr_id'
         cursor = g.conn.execute(text(cmd), u_id=u_id)
         ingr_list = []
