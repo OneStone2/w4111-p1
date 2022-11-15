@@ -412,7 +412,7 @@ def create_recipe():
 def inventory():
     print(request)
     
-    if u_id is None:
+    if g.user is None:
         abort(401)
     else:
         u_id = g.user['email']
