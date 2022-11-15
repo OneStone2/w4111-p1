@@ -1,0 +1,39 @@
+<html>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+
+
+<body>
+  {% if g.user %}
+  <div>
+	  <a href="../profile?name={{g.user.username}}">Profile</a> | <a href="../inventory">Inventory</a> | <a href="../recipe_list">Recipes</a> | Logged in as {{g.user.username}} | <a href="../log_out">Log out</a>
+  </div>
+  {% else %}
+  <div>
+	  <a href="../recipe_list">Recipes</a> | <a href="../log_in">Log in</a> | <a href="../register">Register</a>
+  </div>
+  {% endif %} 
+  <h1>{{username}}</h1>
+  <div>
+	{% if recipe_list|length %}
+		<h2>Recipes</h2>
+		{% for recipe in recipe_list %}
+		<h3><a href="../recipe?id={{recipe[0]}}">{{recipe[1]}}</a></h3>
+		{% endfor %}
+	{% else %}
+		<p>This user has posted no recipes.</p>
+	{% endif %}
+  </div>
+  
+  {% if authorized %}
+  <form method="POST" action="create_recipe"><input type="submit" value="Create new recipe" name="create"> </form>
+  {% endif %}
+
+</body>
+
+
+</html>

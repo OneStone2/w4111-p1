@@ -1,0 +1,85 @@
+<html>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  
+    </script>  
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">  
+    </script>  
+    
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
+    rel="stylesheet" type="text/css" />  
+</head>
+
+<body>
+  {% if g.user %}
+  <div>
+	  <a href="../profile?name={{g.user.username}}">Profile</a> | <a href="../inventory">Inventory</a> | <a href="../recipe_list">Recipes</a> | Logged in as {{g.user.username}} | <a href="../log_out">Log out</a>
+  </div>
+  {% else %}
+  <div>
+	  <a href="../recipe_list">Recipes</a> | <a href="../log_in">Log in</a> | <a href="../register">Register</a>
+  </div>
+  {% endif %} 
+  
+  <h1><form method="POST" action="edit_recipe_attr"> <input type="text" name="name" value="{{recipe[0]}}"> <input type="submit" value="Edit" > </form></h1>
+  <div>
+    <p>by {{recipe[3]}}</p>  
+	<p><form method="POST" action="edit_recipe_attr"> <input type="number" name="servings" value="{{recipe[1]}}"> servings <input type="submit" value="Edit"> </form></p>
+	<p><form method="POST" action="edit_recipe_attr"> <input type="number" name="time" value="{{recipe[2]}}"> minutes <input type="submit" value="Edit"> </form></p>
+  </div>
+  
+  <h2>Ingredients</h2>
+
+  <table>
+    {% for ingr in ingr_list %}
+    <tr><td><form method="POST" action="edit_recipe_ingr"> <input type="number" step="any" name="amount" value={{ingr[0]}}> {{ingr[1]}} {{ingr[2]}} <input type="text" name="info" value="{{ingr[3]}}"> <input type="submit" value="Edit" name={{ingr[4]}} style="float: right;"> </form> </td><td><form method="POST" action="edit_recipe_ingr"> <input type="submit" value="Delete" name={{ingr[4]}}> </form></td></tr>
+    
+    {% endfor %}
+  </table>
+  
+  <form method="POST" action="edit_recipe_ingr">
+  <input type="text" id="tags" name="ingr">
+  
+  <script>
+  $( function() {
+    var availableTags = [
+        {% for ingr in ingr_types %}
+            "{{ingr}}",
+        {% endfor %}
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+  
+  <input type="submit" value="Add" name="add">
+  
+  </form>
+  
+  <h2>Instructions</h2>
+  
+   <div>
+    {% for instr in instr_list %}
+    <p><form method="POST" action="edit_recipe_instr"> {{instr[0]}}.<input style="width: 600px;" type="text" name="text" value="{{instr[1]}}"> <input type="submit" value="Edit" name={{instr[2]}}> </form></p>
+    {% endfor %}
+  </div>
+  
+  <table>
+    <tr><td><form method="POST" action="add_step"> <input type="submit" value="Add step"> </form> </td><td><form method="POST" action="remove_step"> <input type="submit" value="Remove last step"> </form></td></tr>
+  </table>
+  
+  <form method="POST" action="delete_recipe"> <input type="submit" value="Delete recipe"> </form>
+  
+
+</body>
+
+
+</html>

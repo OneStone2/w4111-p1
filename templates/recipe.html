@@ -1,0 +1,50 @@
+<html>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+
+
+<body>
+  {% if g.user %}
+  <div>
+	  <a href="../profile?name={{g.user.username}}">Profile</a> | <a href="../inventory">Inventory</a> | <a href="../recipe_list">Recipes</a> | Logged in as {{g.user.username}} | <a href="../log_out">Log out</a>
+  </div>
+  {% else %}
+  <div>
+	  <a href="../recipe_list">Recipes</a> | <a href="../log_in">Log in</a> | <a href="../register">Register</a>
+  </div>
+  {% endif %} 
+  <h1>{{recipe[0]}}</h1>
+  <div>
+    <p>by <a href="../profile?name={{recipe[3]}}">{{recipe[3]}}</a></p>  
+	<p>{{recipe[1]}} servings</p>
+	<p>{{recipe[2]}} minutes</p>
+  </div>
+
+  <h2>Ingredients</h2>
+
+  <div>
+    {% for ingr in ingr_list %}
+    <p>{{ingr[1]}} {{ingr[2]}} {{ingr[0]}} {{ingr[3]}}</p>
+    {% endfor %}
+  </div>
+  
+  <h2>Instructions</h2>
+  
+  <div>
+    {% for instr in instr_list %}
+    <p>{{instr[0]}}. {{instr[1]}}</p>
+    {% endfor %}
+  </div>
+  
+  {% if authorized %}
+  <form method="GET" action="edit_recipe"><input type="submit" value="Edit" name="{{recipe[4]}}"> </form>
+  {% endif %}
+
+</body>
+
+
+</html>

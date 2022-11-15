@@ -1,0 +1,64 @@
+<html>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js">  
+    </script>  
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js">  
+    </script>  
+    
+    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css"
+    rel="stylesheet" type="text/css" />  
+</head>
+
+<body>
+  {% if g.user %}
+  <div>
+	  <a href="../profile?name={{g.user.username}}">Profile</a> | <a href="../inventory">Inventory</a> | <a href="../recipe_list">Recipes</a> | Logged in as {{g.user.username}} | <a href="../log_out">Log out</a>
+  </div>
+  {% else %}
+  <div>
+	  <a href="../recipe_list">Recipes</a> | <a href="../log_in">Log in</a> | <a href="../register">Register</a>
+  </div>
+  {% endif %} 
+  <h1>My inventory</h1>
+
+  <table>
+    {% for ingr in ingr_list %}
+    <tr><td><form method="POST" action="edit_inventory"> <input type="number" step="any" name="amount" value={{ingr[0]}}> {{ingr[1]}} {{ingr[2]}} <input type="submit" value="Edit" name={{ingr[3]}} style="float: right;"> </form> </td><td><form method="POST" action="edit_inventory"> <input type="submit" value="Delete" name={{ingr[3]}}> </form></td></tr>
+    
+    {% endfor %}
+  </table>
+  
+  <form method="POST" action="edit_inventory">
+  <input type="text" id="tags" name="ingr">
+  
+  <script>
+  $( function() {
+    var availableTags = [
+        {% for ingr in ingr_types %}
+            "{{ingr}}",
+        {% endfor %}
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+  
+  <input type="submit" value="Add" name="add">
+  
+  </form>
+  
+  <p><a href="../recipe_list?name={{g.user.username}}">View recipes for this inventory</a></p>
+
+</body>
+
+
+</html>

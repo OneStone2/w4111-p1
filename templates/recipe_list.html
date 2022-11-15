@@ -1,0 +1,30 @@
+<html>
+  <style>
+    body{ 
+      font-size: 15pt;
+      font-family: arial;
+    }
+  </style>
+
+
+<body>
+  {% if g.user %}
+  <div>
+	  <a href="../profile?name={{g.user.username}}">Profile</a> | <a href="../inventory">Inventory</a> | <a href="../recipe_list">Recipes</a> | Logged in as {{g.user.username}} | <a href="../log_out">Log out</a>
+  </div>
+  {% else %}
+  <div>
+	  <a href="../recipe_list">Recipes</a> | <a href="../log_in">Log in</a> | <a href="../register">Register</a>
+  </div>
+  {% endif %} 
+  <h1>List of recipes</h1>
+  <div>
+    {% for recipe in recipe_list %}
+    <h3><a href="../recipe?id={{recipe[0]}}">{{recipe[1]}}</a></h3>
+    {% endfor %}
+  </div>
+
+</body>
+
+
+</html>
