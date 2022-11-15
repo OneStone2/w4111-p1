@@ -40,7 +40,7 @@ app.secret_key="eevee is cool"
 
 # Use the DB credentials you received by e-mail
 DB_USER = "jo2708"
-DB_PASSWORD = "JoEXRHBymJSzjGU"
+DB_PASSWORD = "why would I tell you my password wtf"
 
 DB_SERVER = "w4111project1part2db.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
@@ -570,7 +570,7 @@ def register():
         if error is None:
             try:
                 cmd = "INSERT INTO Account(email, username, password) VALUES ((:email), (:username), (:password))"
-                g.conn.execute(text(cmd), email=email, username=username, password=password)
+                g.conn.execute(text(cmd), email=email, username=username, password=generate_password_hash(password))
             except exc.IntegrityError:
                 # The username was already taken, which caused the
                 # commit to fail. Show a validation error.
