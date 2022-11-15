@@ -40,7 +40,7 @@ app.secret_key="eevee is cool"
 
 # Use the DB credentials you received by e-mail
 DB_USER = "jo2708"
-DB_PASSWORD = "I won't tell you my password wtf"
+DB_PASSWORD = "JoEXRHBymJSzjGU"
 
 DB_SERVER = "w4111project1part2db.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
@@ -411,10 +411,11 @@ def create_recipe():
 @app.route('/inventory', methods=['GET'])
 def inventory():
     print(request)
-    u_id = g.user['email']
+    
     if u_id is None:
         abort(401)
     else:
+		u_id = g.user['email']
         cmd = 'SELECT V.amount, G.unit, G.name, G.ingr_id FROM Inventory V, Ingredient G WHERE V.email = (:u_id) AND V.ingr_id = G.ingr_id'
         cursor = g.conn.execute(text(cmd), u_id=u_id)
         ingr_list = []
